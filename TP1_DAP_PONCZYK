@@ -1,0 +1,89 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const MyApp()); // Inicia la aplicación
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: const Text("Login")),
+        body: const LoginScreen(),
+      ),
+    );
+  }
+}
+
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  TextEditingController usuarioController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  String mensaje = "";
+
+  void login() {
+    String usuario = usuarioController.text;
+    String password = passwordController.text;
+
+    if (usuario.isEmpty || password.isEmpty) {
+      setState(() {
+        mensaje = "Por favor rellena todos los campos";
+      });
+    } else if (usuario == "meca2025" && password == "aguantedap") {
+      setState(() {
+        mensaje = "Login exitoso";
+      });
+    } else {
+      setState(() {
+        mensaje = "Usuario o contraseña incorrectos";
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        // Campo de texto para el usuario
+        TextField(
+          controller: usuarioController,
+          decoration: const InputDecoration(
+            hintText: "Usuario", // Texto de sugerencia
+          ),
+        ),
+        // Espacio entre los campos
+        const SizedBox(height: 10),
+        // Campo de texto para la contraseña
+        TextField(
+          controller: passwordController,
+          decoration: const InputDecoration(
+            hintText: "Contraseña", // Texto de sugerencia
+          ),
+          obscureText: true, // Oculta el texto de la contraseña
+        ),
+        // Espacio entre el campo y el botón
+        const SizedBox(height: 20),
+        ElevatedButton(
+          onPressed: login, // Llama a la función login al presionar
+          child: const Text("Login"),
+        ),
+        // Espacio entre el botón y el mensaje
+        const SizedBox(height: 20),
+        Text(
+          mensaje,
+          style: const TextStyle(color: Colors.red), // Mensaje en rojo
+        ),
+      ],
+    );
+  }
+}
